@@ -1,0 +1,43 @@
+<h2>Interpolation</h2>
+<p>My name is {{myName}}</p> <!-- Binding One-way from data source to view target -->
+<br><br>
+
+
+<h2>Template Expresion</h2>
+<p>1 + 1 = {{ 1+1 }}</p>
+<input type="text" value="{{1+1}}" />
+<br><br>
+
+
+<h2>Select With Template Reference Variable (To select DOM properties).</h2>
+<select #selectedPost (change)="showSelectedPost(selectedPost.value)"> <!--(event)="" / Binding One-way from view target to data source -->
+  <option *ngFor="let post of posts; trackBy: trackByPosts" [ngValue]="post">{{ post.title }}</option> <!-- *ngName = Angular Directive / Directive binding  -->
+  <!-- [ngValue] = Binding One-way from data source to view target -->
+</select>
+<br><br>
+
+
+<h2>Select With NgModel (Get object of selected option).</h2>
+<select [(ngModel)]="selectedOption" (ngModelChange)="showSelectedPost(selectedOption)"> <!-- ngModel = exported from '@angular/forms' / Binding Two-way -->
+  <option *ngFor="let post of posts; trackBy: trackByPosts" [ngValue]="post">{{ post.title }}</option>
+</select>
+<br><br>
+
+
+<p>Normal value</p>
+<img src="assets/pic_angular.jpg"> <!-- Property without binding -->
+<p>Interpolated value</p>
+<img src="{{angularPicUrl}}"> <!-- Property with interpolate value -->
+<p>Property pinding value</p>
+<img [src]="angularPicUrl"> <!-- Property with binding value -->
+<p>Property pinding value</p>
+<img [attr.src]="angularPicUrl"> <!-- Property with binding value -->
+<br><br>
+
+
+<h2>Template input variables</h2>
+<button (click)="getData()">Refresh Data</button>
+<div *ngFor="let post of posts; trackBy: trackByPosts">
+  <h3>{{post.title}}</h3>
+  <p>{{post.body}}</p>
+</div>

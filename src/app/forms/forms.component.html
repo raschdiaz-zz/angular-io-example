@@ -1,0 +1,38 @@
+<input #newHero (keyup)="showMessage($event, newHero.value)" (keyup.enter)="alertData(newHero.value)">
+<p [hidden]="!ifMessage">Presione la tecla "Enter" para enviar los datos.</p>
+<br><br><br><br>
+<form [formGroup]="exampleForm" (ngSubmit)="submitForm(exampleForm.value)">
+  <label>Name</label>
+  <input type="text" id="formName" formControlName="name"/>
+  <p *ngIf="!exampleForm.controls.name.pristine && !exampleForm.controls.name.valid">Invalid name!.</p>
+  <br><br>
+  <label>Age</label>  
+  <select formControlName="age">
+    <option *ngFor="let age of ages" [value]="age.value">{{ age.name }}</option>
+  </select>
+  <br>
+  <label>BirthDate</label>
+  <input type="date" placeholder="Pattern" formControlName="birth_date">
+  <p *ngIf="!exampleForm.controls.birth_date.pristine && !exampleForm.controls.birth_date.valid">Invalid birth date!.</p>
+  <br><br>
+  <label>Gender</label>
+  <input type="radio" value="male" formControlName="gender"> Male<br>
+  <input type="radio" value="female" formControlName="gender"> Female<br>
+  <br><br>
+  <label>Description</label>
+  <textarea rows="10" cols="30" placeholder="Maximum 10 characters" formControlName="description"></textarea>
+  <p *ngIf="!exampleForm.controls.description.pristine && !exampleForm.controls.description.valid">Invalid description!.</p>
+  <br><br>
+  <label>Email</label>
+  <input type="email" formControlName="email">
+  <br>
+  <p *ngIf="!exampleForm.controls.email.pristine && !exampleForm.controls.email.valid">Invalid email!.</p>
+  <br><br>
+  <label>Items</label>
+  <div formGroupName="items" *ngFor="let item of items">
+    <input type="checkbox" [value]="item.value" formControlName="{{item.id}}" />{{item.description}}
+  </div>
+  <input type="submit" [disabled]="!exampleForm.valid"/>
+  <input type="reset"/>
+  <input type="button" value="Reset For Selector/Radios" (click)="resetForm()"/> <!--If the form has radio buttons, use this reset way-->
+</form>
