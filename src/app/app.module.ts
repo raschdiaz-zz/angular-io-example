@@ -2,9 +2,10 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms' //NgModel
-import { HttpModule }    from '@angular/http'
+import { HttpModule }    from '@angular/http' //Required to in-memory-web-api
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AppRoutingModule } from './app-routing.module'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http' //Interceptor
 
 //Components
 import { AppComponent } from './app.component' //Add component to app
@@ -19,8 +20,19 @@ import { FormsComponent } from './forms/forms.component'
 //Services
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api'
 import { InMemoryDataService }  from './shared/in-memory-data.service'
-import { HeroService } from './heroes/shared/hero.service'
-import { RandomDataService } from './template-syntax/shared/random-data.service'
+//import { HeroService } from './heroes/shared/hero.service'
+//import { RandomDataService } from './template-syntax/shared/random-data.service'
+import { MyHttpLogInterceptor } from './shared/http.interceptor' //Interceptor
+
+//Frameworks
+import { RestangularModule, Restangular } from 'ngx-restangular'
+
+
+// Function for setting the default restangular configuration
+export function RestangularConfigFactory (RestangularProvider) {
+  RestangularProvider.setBaseUrl('http://jsonplaceholder.typicode.com/');
+  //RestangularProvider.setDefaultHeaders({'Authorization': 'Bearer UDXPx-Xko0w4BRKajozCVy20X11MRZs1'});
+}
 
 
 @NgModule({
@@ -31,9 +43,12 @@ import { RandomDataService } from './template-syntax/shared/random-data.service'
     AppRoutingModule,
     HttpModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService, {
-      passThruUnknownUrl: true //Consume external api's
+      passThruUnknownUrl: true, //Consume external api's
+      delay: 1000
     } ),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    //HttpClientModule,
+    RestangularModule.forRoot(RestangularConfigFactory) //Restangular
   ],
   declarations: [ //Components, Directives, Pipes
     AppComponent,
@@ -46,8 +61,9 @@ import { RandomDataService } from './template-syntax/shared/random-data.service'
     FormsComponent
   ],
   providers: [ //Services
-    HeroService,
-    RandomDataService
+    //HeroService,
+    //RandomDataService,
+    { provide: HTTP_INTERCEPTORS, useClass: MyHttpLogInterceptor, multi: true } //Interceptor
   ],
   bootstrap: [  //Root/Entry component (Not referenced in any template)
     AppComponent

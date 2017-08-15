@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core'
+
+import { RestangularModule, Restangular } from 'ngx-restangular'
+
 import { Post } from './shared/post.model'
-import { RandomDataService } from './shared/random-data.service'
+//import { RandomDataService } from './shared/random-data.service'
 
 
 @Component({
@@ -8,7 +11,7 @@ import { RandomDataService } from './shared/random-data.service'
   templateUrl: './template-syntax.component.html',
   styleUrls: ['./template-syntax.component.css']
 })
-export class TemplateSyntaxComponent implements OnInit { // Lifecycle Hook
+export class TemplateSyntaxComponent implements OnInit /*Lifecycle Hook*/ { 
 
   myName = "Hans Smüller Rasch Diaz"
   angularPicUrl = "assets/pic_angular.jpg"
@@ -16,7 +19,8 @@ export class TemplateSyntaxComponent implements OnInit { // Lifecycle Hook
 
 
   constructor(
-    private randomDataService: RandomDataService
+    //private randomDataService: RandomDataService
+    private restangular: Restangular
   ) {}
 
   
@@ -27,9 +31,22 @@ export class TemplateSyntaxComponent implements OnInit { // Lifecycle Hook
   getData(): void {
 
     this.posts = null
-    this.randomDataService.getAll().then(posts => 
+
+    /*this.randomDataService.getAll().then(posts => 
       this.posts = posts
-    )
+    )*/
+
+    /*this.randomDataService.getAllPosts().subscribe(response => {
+      this.posts = response as Post[]
+    }, error => {
+      console.log(error)
+    })*/
+
+    this.restangular.all('posts').getList().subscribe(response => {
+      this.posts = response as Post[]
+    }, error => {
+      console.log(error);
+    })
 
   }
 

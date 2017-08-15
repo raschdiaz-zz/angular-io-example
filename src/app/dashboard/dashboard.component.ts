@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Hero } from '../heroes/shared/hero.model'
-import { HeroService } from '../heroes/shared/hero.service'
+//import { HeroService } from '../heroes/shared/hero.service'
 
 
 @Component({
@@ -13,13 +13,13 @@ export class DashboardComponent implements OnInit {
 
   heroes: Hero[] = []
 
-  constructor(private heroService: HeroService) { }
+  constructor(/*private heroService: HeroService*/) { }
 
   ngOnInit(): void {
     
-    this.heroService.getAll().then(heroes => 
+    /*this.heroService.getAll().then(heroes => 
       this.heroes = heroes.slice(1, 5)
-    )
+    )*/
     
   }
 

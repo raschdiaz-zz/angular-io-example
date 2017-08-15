@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core'
+/*import { Injectable } from '@angular/core'
 import { Headers, Http } from '@angular/http'
 
 import { Hero } from './hero.model'
-import { Heroes } from './mock-heroes'
+//import { Heroes } from './mock-heroes'
 
 import 'rxjs/add/operator/toPromise'
 
@@ -22,16 +22,12 @@ export class HeroService {
 
   getAll(): Promise<Hero[]> {  //Asynchronous function
     //return Promise.resolve(Heroes)
-    /*return new Promise(resolve => {
+    return new Promise(resolve => {
       // Simulate server latency with 2 second delay
       setTimeout(() => resolve(
         Heroes
       ), 1100)
-    })*/
-    return this.http.get(this.heroesUrl)
-      .toPromise()
-      .then(response => response.json().data as Hero[])
-      .catch(this.handleError)
+    })
   }
 
   getById(id: number): Promise<Hero> {
@@ -58,4 +54,4 @@ export class HeroService {
       .catch(this.handleError)
   }
 
-}
+}*/
