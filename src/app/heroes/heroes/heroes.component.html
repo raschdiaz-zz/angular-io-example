@@ -1,3 +1,12 @@
+<h2>Create Hero</h2>
+<div>
+  <label>Name: </label>
+  <input [(ngModel)]="newHero.name">
+</div>
+<button (click)="create()">Save</button>
+<p *ngIf="creatingHero">Creating Heroe...</p>
+<p *ngIf="deletingHero">Deleting Heroe...</p>
+
 <h2>My Heroes</h2>
 <ul class="heroes">
   <li *ngFor="let hero of heroesModified" (click)="onSelect(hero)"  [@heroListItem]="hero.state"> <!--[class.selected]="hero === selectedHero"-->

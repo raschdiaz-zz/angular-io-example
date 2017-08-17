@@ -1,6 +1,6 @@
 //Modules
 import { BrowserModule } from '@angular/platform-browser'
-import { NgModule } from '@angular/core'
+import { NgModule, ViewContainerRef } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms' //NgModel
 import { HttpModule }    from '@angular/http' //Required to in-memory-web-api
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
@@ -22,15 +22,28 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api'
 import { InMemoryDataService }  from './shared/in-memory-data.service'
 //import { HeroService } from './heroes/shared/hero.service'
 //import { RandomDataService } from './template-syntax/shared/random-data.service'
-import { MyHttpLogInterceptor } from './shared/http.interceptor' //Interceptor
+//--import { ToastrService } from './shared/toastr.service'
+import { MyHttpLogInterceptor } from './shared/http.interceptor' //Angular's Interceptor
 
 //Frameworks
 import { RestangularModule, Restangular } from 'ngx-restangular'
+import { ToastModule } from 'ng2-toastr/ng2-toastr'
+import { ToastsManager } from 'ng2-toastr';
+//--import { ToastrDirective } from './toastr.directive'
 
 
 // Function for setting the default restangular configuration
 export function RestangularConfigFactory (RestangularProvider) {
-  RestangularProvider.setBaseUrl('http://jsonplaceholder.typicode.com/');
+
+  RestangularProvider.setBaseUrl('http://jsonplaceholder.typicode.com/')
+  RestangularProvider.addResponseInterceptor((data, operation, what, url, response) => {
+    console.log(data)
+    console.log(operation)
+    console.log(what)
+    console.log(url)
+    console.log(response)
+    return data
+  })
   //RestangularProvider.setDefaultHeaders({'Authorization': 'Bearer UDXPx-Xko0w4BRKajozCVy20X11MRZs1'});
 }
 
@@ -48,7 +61,8 @@ export function RestangularConfigFactory (RestangularProvider) {
     } ),
     BrowserAnimationsModule,
     //HttpClientModule,
-    RestangularModule.forRoot(RestangularConfigFactory) //Restangular
+    RestangularModule.forRoot(RestangularConfigFactory), //Restangular
+    ToastModule.forRoot(),
   ],
   declarations: [ //Components, Directives, Pipes
     AppComponent,
@@ -58,18 +72,20 @@ export function RestangularConfigFactory (RestangularProvider) {
     HeroesSearchComponent,
     TemplateSyntaxComponent,
     PipeComponent,
-    FormsComponent
+    FormsComponent,
+    //--ToastrDirective
   ],
   providers: [ //Services
     //HeroService,
     //RandomDataService,
-    { provide: HTTP_INTERCEPTORS, useClass: MyHttpLogInterceptor, multi: true } //Interceptor
+    { provide: HTTP_INTERCEPTORS, useClass: MyHttpLogInterceptor, multi: true }, //Angular's Interceptor
+    //--ToastrService
   ],
   bootstrap: [  //Root/Entry component (Not referenced in any template)
     AppComponent
   ]
 })
 
-export class AppModule { }
+export class AppModule {}
 
 //Dependency Injection = Coding pattern in which a class receives its dependencies from external sources rather than creating them itself.

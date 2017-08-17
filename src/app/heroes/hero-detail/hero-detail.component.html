@@ -1,12 +1,15 @@
-<div *ngIf="hero">
+<p *ngIf="loadingHero">Loading hero...</p>
+<div *ngIf="existingHero=='true'">
   <h2>{{hero.name}} details!</h2>
   <div>
-    <label>id: </label>{{hero.id}}
+    <label>Id: </label>{{hero.id}}
   </div>
   <div>
-    <label>name: </label>
+    <label>Name: </label>
     <input [(ngModel)]="hero.name" placeholder="name">
   </div>
   <button (click)="save()">Save</button>
   <button (click)="goBack()">Back</button>
+  <p *ngIf="savingHero"></p>
 </div>
+<p *ngIf="existingHero=='false'">The heroe doesn't exist.</p>
